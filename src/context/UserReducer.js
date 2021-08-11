@@ -8,6 +8,12 @@ const reducers = (globalState, action) => {
         authStatus: true,
         token: action.payload.token,
       }
+    case "GET_USER_INFO":
+      return {
+        ...globalState,
+        authStatus: true,
+        user: action.payload,
+      }
 
     default:
       return globalState

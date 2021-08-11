@@ -11,6 +11,8 @@ import Header from "./components/Layout/Header"
 
 import UserState from "./context/UserState"
 
+import PrivateRoute from "./components/PrivateRoute"
+
 function App() {
   return (
     <>
@@ -19,7 +21,7 @@ function App() {
           <Header />
 
           <Switch>
-            <Route exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route path="/" component={Home} />

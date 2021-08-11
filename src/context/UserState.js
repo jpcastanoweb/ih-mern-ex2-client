@@ -27,12 +27,33 @@ const UserState = (props) => {
         payload: res.data,
       })
     } catch (error) {
-      console.log("Error registering user:", error.message)
+      // console.log("Error registering user:", error.message)
       dispatch({
         type: "REGISTER_ERROR",
         payload: error,
       })
     }
+  }
+
+  const verifyingToken = async () => {
+    const token = localStorage.getItem("token")
+
+    // prepare petition
+    if (token) {
+      axiosClient.defaults.headers.common["x-auth-token"] = token
+    } else {
+      delete axiosClient.defaults.headers.common["x-auth-token"]
+    }
+
+    //send petition
+    try {
+      const res = await axiosClient.get("/api/auth")
+
+      dispatch({
+        type: "GET_USER_INFO",
+        payload: res.data.userFound,
+      })
+    } catch (error) {}
   }
 
   return (
@@ -42,6 +63,7 @@ const UserState = (props) => {
         authStatus: globalState.authStatus,
         token: globalState.token,
         registerUser,
+        verifyingToken,
       }}
     >
       {props.children}
