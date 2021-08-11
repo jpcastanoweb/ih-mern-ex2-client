@@ -1,34 +1,46 @@
-// UserState.js
-
-// import React, { useReducer } from "react"
-import React from "react"
+import React, { useReducer } from "react"
 import UserContext from "./UserContext"
-// import UserReducer from "./UserReducer"
+import UserReducer from "./UserReducer"
 
-import axios from "axios"
+import axiosClient from "./../config/axios"
 
 const UserState = (props) => {
-  //   const initialState = {
-  //     user: {
-  //       username: "",
-  //       email: "",
-  //     },
-  //   }
+  const initialState = {
+    user: {
+      username: "",
+      email: "",
+    },
+    authStatus: null,
+    token: null,
+  }
+
+  const [globalState, dispatch] = useReducer(UserReducer, initialState)
 
   const registerUser = async (dataForm) => {
     console.log(dataForm)
 
-    const res = await axios.post(
-      "http://localhost:3001/api/users/register",
-      dataForm
-    )
-    console.log(res)
+    try {
+      const res = await axiosClient.post("/api/users/register", dataForm)
+
+      dispatch({
+        type: "REGISTER_SUCCESS",
+        payload: res.data,
+      })
+    } catch (error) {
+      console.log("Error registering user:", error.message)
+      dispatch({
+        type: "REGISTER_ERROR",
+        payload: error,
+      })
+    }
   }
 
   return (
     <UserContext.Provider
       value={{
-        user: "",
+        user: globalState.user,
+        authStatus: globalState.authStatus,
+        token: globalState.token,
         registerUser,
       }}
     >

@@ -37,10 +37,7 @@ export default function RegisterSuccess(props) {
                   </p>
                 </div>
                 <div className="ml-4 flex-shrink-0 flex">
-                  <button
-                    onClick={props.handle()}
-                    className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
+                  <button className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <span className="sr-only">Close</span>
                     <svg
                       className="h-5 w-5"
