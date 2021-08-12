@@ -1,6 +1,30 @@
-import React from "react"
+import React, { useContext, useState } from "react"
+import UserContext from "./../../context/UserContext"
 
 export default function Login() {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  })
+
+  const userCtx = useContext(UserContext)
+
+  const { loginUser } = userCtx
+
+  const handleChange = (e) => {
+    e.preventDefault()
+
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const sendData = (e) => {
+    e.preventDefault()
+    return loginUser(data)
+  }
+
   return (
     <>
       <div className="min-h-screen bg-white flex">
@@ -19,10 +43,17 @@ export default function Login() {
 
             <div className="mt-8">
               <div className="mt-6">
-                <form action="#" method="POST" className="space-y-6">
+                <form
+                  action="#"
+                  method="POST"
+                  className="space-y-6"
+                  onSubmit={(e) => {
+                    sendData(e)
+                  }}
+                >
                   <div>
                     <label
-                      for="email"
+                      forhtml="email"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Email address
@@ -32,8 +63,11 @@ export default function Login() {
                         id="email"
                         name="email"
                         type="email"
-                        autocomplete="email"
+                        autoComplete="email"
                         required
+                        onChange={(e) => {
+                          handleChange(e)
+                        }}
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -41,7 +75,7 @@ export default function Login() {
 
                   <div className="space-y-1">
                     <label
-                      for="password"
+                      forhtml="password"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Password
@@ -51,9 +85,12 @@ export default function Login() {
                         id="password"
                         name="password"
                         type="password"
-                        autocomplete="current-password"
+                        autoComplete="current-password"
                         required
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        onChange={(e) => {
+                          handleChange(e)
+                        }}
                       />
                     </div>
                   </div>
@@ -67,7 +104,7 @@ export default function Login() {
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
                       <label
-                        for="remember-me"
+                        forhtml="remember-me"
                         className="ml-2 block text-sm text-gray-900"
                       >
                         Remember me

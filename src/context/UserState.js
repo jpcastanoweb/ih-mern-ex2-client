@@ -42,6 +42,9 @@ const UserState = (props) => {
     if (token) {
       axiosClient.defaults.headers.common["x-auth-token"] = token
     } else {
+      // dispatch({
+      //   type: "CLEAN_USER_TOKEN",
+      // })
       delete axiosClient.defaults.headers.common["x-auth-token"]
     }
 
@@ -56,6 +59,25 @@ const UserState = (props) => {
     } catch (error) {}
   }
 
+  const loginUser = async (dataForm) => {
+    console.log(dataForm)
+
+    try {
+      const res = await axiosClient.post("/api/auth/login", dataForm)
+
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: res.data,
+      })
+    } catch (error) {}
+  }
+
+  const signout = async () => {
+    dispatch({
+      type: "SIGNOUT_USER",
+    })
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -64,6 +86,8 @@ const UserState = (props) => {
         token: globalState.token,
         registerUser,
         verifyingToken,
+        loginUser,
+        signout,
       }}
     >
       {props.children}
